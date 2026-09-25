@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Scholarship Finder</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
@@ -19,15 +21,37 @@
         </div>
 
         <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">Scholarships</a>
-            <a href="#">Categories</a>
-            <a href="#">About</a>
+
+            <a href="{{ url_for('home') }}">
+                Home
+            </a>
+
+            <a href="{{ url_for('scholarships') }}">
+                Scholarships
+            </a>
+
+            <a href="{{ url_for('scholarships') }}">
+                Categories
+            </a>
+
+            <a href="#about">
+                About
+            </a>
+
         </div>
 
         <div class="nav-buttons">
-            <a href="#" class="login-btn">Login</a>
-            <a href="#" class="signup-btn">Get Started</a>
+
+            <a href="{{ url_for('login') }}"
+               class="login-btn">
+                Login
+            </a>
+
+            <a href="{{ url_for('register') }}"
+               class="signup-btn">
+                Get Started
+            </a>
+
         </div>
 
     </nav>
@@ -55,11 +79,13 @@
 
             <div class="hero-buttons">
 
-                <a href="#" class="primary-btn">
+                <a href="{{ url_for('scholarships') }}"
+                   class="primary-btn">
                     🔎 Find Scholarships
                 </a>
 
-                <a href="#" class="secondary-btn">
+                <a href="{{ url_for('scholarships') }}"
+                   class="secondary-btn">
                     Explore Opportunities →
                 </a>
 
@@ -92,11 +118,14 @@
         <div class="hero-card">
 
             <div class="floating-card card-one">
+
                 🎓
+
                 <div>
                     <strong>Scholarship Match</strong>
                     <small>92% Match</small>
                 </div>
+
             </div>
 
             <div class="main-dashboard-card">
@@ -112,7 +141,9 @@
 
                 <h3>Future Scholar</h3>
 
-                <p>Find opportunities made for you.</p>
+                <p>
+                    Find opportunities made for you.
+                </p>
 
                 <div class="progress">
                     <div class="progress-fill"></div>
@@ -126,11 +157,14 @@
             </div>
 
             <div class="floating-card card-two">
+
                 💰
+
                 <div>
                     <strong>₹75,000</strong>
                     <small>Available Aid</small>
                 </div>
+
             </div>
 
         </div>
@@ -145,8 +179,13 @@
         <div class="section-heading">
 
             <div>
+
                 <span>EXPLORE</span>
-                <h2>Find Opportunities That Fit You</h2>
+
+                <h2>
+                    Find Opportunities That Fit You
+                </h2>
+
             </div>
 
             <p>
@@ -159,33 +198,90 @@
 
         <div class="category-grid">
 
-            <div class="category-card">
-                <div class="category-icon">🎓</div>
-                <h3>Diploma</h3>
-                <p>Scholarships for diploma students</p>
-                <a href="#">Explore →</a>
-            </div>
 
             <div class="category-card">
-                <div class="category-icon">💻</div>
-                <h3>B.Tech</h3>
-                <p>Opportunities for engineering students</p>
-                <a href="#">Explore →</a>
+
+                <div class="category-icon">
+                    🎓
+                </div>
+
+                <h3>
+                    Diploma
+                </h3>
+
+                <p>
+                    Scholarships for diploma students
+                </p>
+
+                <a href="{{ url_for('scholarships') }}">
+                    Explore →
+                </a>
+
             </div>
 
-            <div class="category-card">
-                <div class="category-icon">🏫</div>
-                <h3>Degree</h3>
-                <p>Financial support for degree students</p>
-                <a href="#">Explore →</a>
-            </div>
 
             <div class="category-card">
-                <div class="category-icon">👩‍🎓</div>
-                <h3>Women</h3>
-                <p>Scholarships supporting women in education</p>
-                <a href="#">Explore →</a>
+
+                <div class="category-icon">
+                    💻
+                </div>
+
+                <h3>
+                    B.Tech
+                </h3>
+
+                <p>
+                    Opportunities for engineering students
+                </p>
+
+                <a href="{{ url_for('scholarships') }}">
+                    Explore →
+                </a>
+
             </div>
+
+
+            <div class="category-card">
+
+                <div class="category-icon">
+                    🏫
+                </div>
+
+                <h3>
+                    Degree
+                </h3>
+
+                <p>
+                    Financial support for degree students
+                </p>
+
+                <a href="{{ url_for('scholarships') }}">
+                    Explore →
+                </a>
+
+            </div>
+
+
+            <div class="category-card">
+
+                <div class="category-icon">
+                    👩‍🎓
+                </div>
+
+                <h3>
+                    Women
+                </h3>
+
+                <p>
+                    Scholarships supporting women in education
+                </p>
+
+                <a href="{{ url_for('scholarships') }}">
+                    Explore →
+                </a>
+
+            </div>
+
 
         </div>
 
@@ -198,7 +294,9 @@
 
         <div class="section-title">
 
-            <span>HOW IT WORKS</span>
+            <span>
+                HOW IT WORKS
+            </span>
 
             <h2>
                 Your Scholarship Journey,
@@ -210,11 +308,16 @@
 
         <div class="steps">
 
+
             <div class="step">
 
-                <div class="step-number">01</div>
+                <div class="step-number">
+                    01
+                </div>
 
-                <h3>Create Your Profile</h3>
+                <h3>
+                    Create Your Profile
+                </h3>
 
                 <p>
                     Tell us about your education,
@@ -226,9 +329,13 @@
 
             <div class="step">
 
-                <div class="step-number">02</div>
+                <div class="step-number">
+                    02
+                </div>
 
-                <h3>Discover Scholarships</h3>
+                <h3>
+                    Discover Scholarships
+                </h3>
 
                 <p>
                     Find opportunities that match
@@ -240,9 +347,13 @@
 
             <div class="step">
 
-                <div class="step-number">03</div>
+                <div class="step-number">
+                    03
+                </div>
 
-                <h3>Check Eligibility</h3>
+                <h3>
+                    Check Eligibility
+                </h3>
 
                 <p>
                     Understand the requirements
@@ -254,9 +365,13 @@
 
             <div class="step">
 
-                <div class="step-number">04</div>
+                <div class="step-number">
+                    04
+                </div>
 
-                <h3>Apply & Track</h3>
+                <h3>
+                    Apply & Track
+                </h3>
 
                 <p>
                     Save scholarships and keep
@@ -264,6 +379,7 @@
                 </p>
 
             </div>
+
 
         </div>
 
@@ -276,7 +392,9 @@
 
         <div>
 
-            <span>READY TO START?</span>
+            <span>
+                READY TO START?
+            </span>
 
             <h2>
                 Your dream education
@@ -287,9 +405,35 @@
                 Start discovering scholarships today.
             </p>
 
-            <a href="#" class="primary-btn">
+            <a href="{{ url_for('scholarships') }}"
+               class="primary-btn">
                 Start Finding Scholarships →
             </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- About Anchor -->
+
+    <section id="about" class="about-section">
+
+        <div>
+
+            <span>
+                ABOUT SCHOLARSHIP FINDER
+            </span>
+
+            <h2>
+                Making Scholarship Discovery Easier.
+            </h2>
+
+            <p>
+                Scholarship Finder helps students discover
+                scholarship opportunities based on their
+                education, interests and eligibility.
+            </p>
 
         </div>
 
@@ -310,7 +454,10 @@
         </p>
 
         <div class="footer-bottom">
-            © 2026 Scholarship Finder. All rights reserved.
+
+            © 2026 Scholarship Finder.
+            All rights reserved.
+
         </div>
 
     </footer>

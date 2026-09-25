@@ -294,6 +294,7 @@ def home():
 # =========================================================
 
 @app.route("/scholarships")
+@login_required
 def scholarships():
 
     search = request.args.get(
