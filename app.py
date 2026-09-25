@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 import os
+
 from flask_login import (
     LoginManager,
     UserMixin,
@@ -9,6 +10,7 @@ from flask_login import (
     login_required,
     current_user
 )
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -18,15 +20,36 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
-
 app.config["SECRET_KEY"] = os.environ.get(
     "SECRET_KEY",
     "development-secret-key"
 )
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///scholarship.db"
+
+# =========================================================
+# DATABASE CONFIGURATION
+# =========================================================
+
+database_url = os.environ.get("DATABASE_URL")
+
+if database_url:
+    database_url = database_url.replace(
+        "postgres://",
+        "postgresql://",
+        1
+    )
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///scholarship.db"
+
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+    "pool_pre_ping": True
+}
 
 
 db = SQLAlchemy(app)
@@ -91,10 +114,14 @@ class User(UserMixin, db.Model):
     family_income = db.Column(
         db.Integer
     )
+
     is_admin = db.Column(
-    db.Boolean,
-    default=False
-)
+        db.Boolean,
+        default=False,
+        nullable=False
+    )
+
+
 # =========================================================
 # SCHOLARSHIP MODEL
 # =========================================================
@@ -146,9 +173,16 @@ class Scholarship(db.Model):
     application_link = db.Column(
         db.String(500)
     )
+
     gender = db.Column(
-    db.String(50)
-)
+        db.String(50)
+    )
+
+
+# =========================================================
+# SAVED SCHOLARSHIP MODEL
+# =========================================================
+
 class SavedScholarship(db.Model):
 
     id = db.Column(
@@ -168,6 +202,7 @@ class SavedScholarship(db.Model):
         nullable=False
     )
 
+
 # =========================================================
 # LOAD USER
 # =========================================================
@@ -175,11 +210,26 @@ class SavedScholarship(db.Model):
 @login_manager.user_loader
 def load_user(user_id):
 
-    return User.query.get(int(user_id))
+    return db.session.get(
+        User,
+        int(user_id)
+    )
 
 
 # =========================================================
-# HOME PAGE
+# ADMIN HELPER
+# =========================================================
+
+def is_admin_user():
+
+    return (
+        current_user.is_authenticated
+        and current_user.is_admin
+    )
+
+
+# =========================================================
+# SCHOLARSHIP MATCHING
 # =========================================================
 
 def calculate_match(user, scholarship):
@@ -207,11 +257,9 @@ def calculate_match(user, scholarship):
     if user.state and scholarship.state:
 
         if (
-            user.state.lower()
-            in scholarship.state.lower()
+            user.state.lower() in scholarship.state.lower()
             or
-            scholarship.state.lower()
-            in user.state.lower()
+            scholarship.state.lower() in user.state.lower()
         ):
 
             score += 20
@@ -223,49 +271,42 @@ def calculate_match(user, scholarship):
 
     # CATEGORY MATCH
 
-    if user.category:
+    if user.category and scholarship.category:
 
-        if scholarship.category:
+        if user.category.lower() in scholarship.category.lower():
 
-            if (
-                user.category.lower()
-                in scholarship.category.lower()
-            ):
+            score += 20
 
-                score += 20
-
-                reasons.append(
-                    "Your category matches"
-                )
+            reasons.append(
+                "Your category matches"
+            )
 
 
     # INCOME MATCH
 
-    if user.family_income:
+    if user.family_income and scholarship.income_limit:
 
-        if scholarship.income_limit:
+        try:
 
-            try:
+            income_limit = int(
+                scholarship.income_limit
+                .replace(",", "")
+                .replace("₹", "")
+                .replace("Rs.", "")
+                .strip()
+            )
 
-                income_limit = int(
-                    scholarship.income_limit
-                    .replace(",", "")
-                    .replace("₹", "")
-                    .replace("Rs.", "")
-                    .strip()
+            if user.family_income <= income_limit:
+
+                score += 20
+
+                reasons.append(
+                    "Your family income is eligible"
                 )
 
-                if user.family_income <= income_limit:
+        except ValueError:
 
-                    score += 20
-
-                    reasons.append(
-                        "Your family income is eligible"
-                    )
-
-            except ValueError:
-
-                pass
+            pass
 
 
     # GENERAL BONUS
@@ -280,6 +321,11 @@ def calculate_match(user, scholarship):
 
 
     return score, reasons
+
+
+# =========================================================
+# HOME PAGE
+# =========================================================
 
 @app.route("/")
 def home():
@@ -404,7 +450,6 @@ def scholarship_details(scholarship_id):
 )
 def register():
 
-    # If already logged in
     if current_user.is_authenticated:
 
         return redirect(
@@ -412,7 +457,6 @@ def register():
         )
 
 
-    # When form is submitted
     if request.method == "POST":
 
         name = request.form.get(
@@ -439,22 +483,22 @@ def register():
             "state",
             ""
         )
+
         category = request.form.get(
             "category",
-             ""
+            ""
         )
 
         gender = request.form.get(
-         "gender",
-           ""
-         )
+            "gender",
+            ""
+        )
 
         family_income_text = request.form.get(
             "family_income",
-             ""
+            ""
         )
 
-        # Check required fields
 
         if not name or not email or not password:
 
@@ -467,8 +511,6 @@ def register():
                 url_for("register")
             )
 
-
-        # Check existing email
 
         existing_user = User.query.filter_by(
             email=email
@@ -487,23 +529,23 @@ def register():
             )
 
 
-        # Hash password
-
         hashed_password = generate_password_hash(
             password
         )
 
 
-        # Create user
         try:
 
-         family_income = int(
-        family_income_text
-         ) if family_income_text else None
+            family_income = (
+                int(family_income_text)
+                if family_income_text
+                else None
+            )
 
         except ValueError:
 
-         family_income = None
+            family_income = None
+
 
         new_user = User(
 
@@ -521,7 +563,9 @@ def register():
 
             gender=gender,
 
-            family_income=family_income
+            family_income=family_income,
+
+            is_admin=False
 
         )
 
@@ -559,16 +603,12 @@ def register():
 )
 def login():
 
-    # Already logged in
-
     if current_user.is_authenticated:
 
         return redirect(
             url_for("dashboard")
         )
 
-
-    # Form submitted
 
     if request.method == "POST":
 
@@ -583,14 +623,10 @@ def login():
         )
 
 
-        # Find user
-
         user = User.query.filter_by(
             email=email
         ).first()
 
-
-        # Check password
 
         if user and check_password_hash(
             user.password,
@@ -617,8 +653,9 @@ def login():
 
 
 # =========================================================
-# DASHBOARD
+# SAVE / UNSAVE SCHOLARSHIP
 # =========================================================
+
 @app.route(
     "/save-scholarship/<int:scholarship_id>",
     methods=["POST"]
@@ -630,10 +667,15 @@ def save_scholarship(scholarship_id):
         scholarship_id
     )
 
+
     existing_save = SavedScholarship.query.filter_by(
+
         user_id=current_user.id,
+
         scholarship_id=scholarship.id
+
     ).first()
+
 
     if existing_save:
 
@@ -643,10 +685,12 @@ def save_scholarship(scholarship_id):
 
         db.session.commit()
 
+
         flash(
             "Scholarship removed from saved list.",
             "success"
         )
+
 
     else:
 
@@ -658,16 +702,19 @@ def save_scholarship(scholarship_id):
 
         )
 
+
         db.session.add(
             new_save
         )
 
         db.session.commit()
 
+
         flash(
             "Scholarship saved successfully! ❤️",
             "success"
         )
+
 
     return redirect(
         url_for(
@@ -676,12 +723,29 @@ def save_scholarship(scholarship_id):
         )
     )
 
+
+# =========================================================
+# ADMIN - ADD SCHOLARSHIP
+# =========================================================
+
 @app.route(
     "/admin/add-scholarship",
     methods=["GET", "POST"]
 )
 @login_required
 def add_scholarship():
+
+    if not is_admin_user():
+
+        flash(
+            "You do not have administrator access.",
+            "error"
+        )
+
+        return redirect(
+            url_for("dashboard")
+        )
+
 
     if request.method == "POST":
 
@@ -789,11 +853,17 @@ def add_scholarship():
     return render_template(
         "add_scholarship.html"
     )
+
+
+# =========================================================
+# ADMIN DASHBOARD
+# =========================================================
+
 @app.route("/admin")
 @login_required
 def admin_dashboard():
 
-    if not current_user.is_admin:
+    if not is_admin_user():
 
         flash(
             "You do not have administrator access.",
@@ -815,12 +885,23 @@ def admin_dashboard():
 
 
     return render_template(
+
         "admin_dashboard.html",
+
         scholarships=all_scholarships,
+
         total_scholarships=total_scholarships,
+
         total_users=total_users,
+
         total_saved=total_saved
+
     )
+
+
+# =========================================================
+# ADMIN - EDIT SCHOLARSHIP
+# =========================================================
 
 @app.route(
     "/admin/edit-scholarship/<int:scholarship_id>",
@@ -829,7 +910,7 @@ def admin_dashboard():
 @login_required
 def edit_scholarship(scholarship_id):
 
-    if not current_user.is_admin:
+    if not is_admin_user():
 
         flash(
             "You do not have administrator access.",
@@ -923,13 +1004,18 @@ def edit_scholarship(scholarship_id):
         scholarship=scholarship
     )
 
+
+# =========================================================
+# ADMIN - DELETE SCHOLARSHIP
+# =========================================================
+
 @app.route(
     "/admin/delete-scholarship/<int:scholarship_id>"
 )
 @login_required
 def delete_scholarship(scholarship_id):
 
-    if not current_user.is_admin:
+    if not is_admin_user():
 
         flash(
             "You do not have administrator access.",
@@ -967,6 +1053,12 @@ def delete_scholarship(scholarship_id):
     return redirect(
         url_for("admin_dashboard")
     )
+
+
+# =========================================================
+# USER DASHBOARD
+# =========================================================
+
 @app.route("/dashboard")
 @login_required
 def dashboard():
@@ -975,7 +1067,9 @@ def dashboard():
         user_id=current_user.id
     ).all()
 
+
     saved_scholarships = []
+
 
     for item in saved_items:
 
@@ -983,17 +1077,28 @@ def dashboard():
             item.scholarship_id
         )
 
+
         if scholarship:
 
             saved_scholarships.append(
                 scholarship
             )
 
+
     return render_template(
+
         "dashboard.html",
+
         user=current_user,
+
         saved_scholarships=saved_scholarships
+
     )
+
+
+# =========================================================
+# MATCHES
+# =========================================================
 
 @app.route("/matches")
 @login_required
@@ -1007,9 +1112,13 @@ def matches():
     for scholarship in scholarships:
 
         score, reasons = calculate_match(
+
             current_user,
+
             scholarship
+
         )
+
 
         matched_scholarships.append({
 
@@ -1023,15 +1132,23 @@ def matches():
 
 
     matched_scholarships.sort(
+
         key=lambda x: x["score"],
+
         reverse=True
+
     )
 
 
     return render_template(
+
         "matches.html",
+
         matches=matched_scholarships
+
     )
+
+
 # =========================================================
 # LOGOUT
 # =========================================================
@@ -1042,10 +1159,12 @@ def logout():
 
     logout_user()
 
+
     flash(
         "You have been logged out successfully.",
         "success"
     )
+
 
     return redirect(
         url_for("home")
@@ -1053,7 +1172,7 @@ def logout():
 
 
 # =========================================================
-# CREATE DATABASE
+# CREATE DATABASE TABLES
 # =========================================================
 
 with app.app_context():
@@ -1070,4 +1189,3 @@ if __name__ == "__main__":
     app.run(
         debug=True
     )
-
