@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        My Matches | Scholarship Finder
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for(
+            'static',
+            filename='css/style.css'
+        ) }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for(
+            'static',
+            filename='css/matches.css'
+        ) }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+    <div class="logo">
+        🎓 Scholarship<span>Finder</span>
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/scholarships">
+            Scholarships
+        </a>
+
+        <a href="/matches">
+            My Matches
+        </a>
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+    </div>
+
+
+    <div class="dashboard-user">
+
+        <span>
+            Hi, {{ current_user.name.split()[0] }} 👋
+        </span>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<main class="matches-page">
+
+
+    <div class="matches-header">
+
+        <span>
+            PERSONALIZED DISCOVERY
+        </span>
+
+        <h1>
+            Scholarships made for you.
+        </h1>
+
+        <p>
+            We analyzed your profile and ranked
+            scholarships based on your eligibility.
+        </p>
+
+    </div>
+
+
+
+    <div class="matches-list">
+
+
+        {% for item in matches %}
+
+            <div class="match-card">
+
+
+                <div class="match-score">
+
+                    <strong>
+                        {{ item.score }}%
+                    </strong>
+
+                    <span>
+                        MATCH
+                    </span>
+
+                </div>
+
+
+                <div class="match-content">
+
+                    <span class="match-category">
+                        {{ item.scholarship.category }}
+                    </span>
+
+
+                    <h2>
+                        {{ item.scholarship.name }}
+                    </h2>
+
+
+                    <p class="match-provider">
+                        {{ item.scholarship.provider }}
+                    </p>
+
+
+                    <div class="match-reasons">
+
+                        {% for reason in item.reasons %}
+
+                            <span>
+                                ✓ {{ reason }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <div class="match-bottom">
+
+                        <div>
+
+                            <span>
+                                💰
+                                {{ item.scholarship.amount }}
+                            </span>
+
+                            <span>
+                                📅
+                                {{ item.scholarship.deadline }}
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="{{ url_for(
+                                'scholarship_details',
+                                scholarship_id=item.scholarship.id
+                            ) }}"
+                        >
+
+                            View Scholarship →
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% else %}
+
+            <div class="no-matches">
+
+                <div>
+                    🎓
+                </div>
+
+                <h2>
+                    No scholarships available yet
+                </h2>
+
+                <p>
+                    Add scholarships to your database
+                    to see personalized matches.
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

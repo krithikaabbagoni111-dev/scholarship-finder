@@ -1,0 +1,198 @@
+.matches-page {
+    min-height: calc(100vh - 80px);
+    background: #f8f9ff;
+    padding: 75px 7%;
+}
+
+
+.matches-header {
+    max-width: 700px;
+    margin-bottom: 45px;
+}
+
+
+.matches-header > span {
+    color: #6956e8;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+
+.matches-header h1 {
+    font-size: 48px;
+    line-height: 1.05;
+    margin: 12px 0;
+}
+
+
+.matches-header p {
+    color: #888;
+    font-size: 14px;
+}
+
+
+.matches-list {
+    max-width: 1000px;
+}
+
+
+.match-card {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 25px;
+    background: white;
+    border: 1px solid #eeeeee;
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 18px;
+    transition: 0.2s;
+}
+
+
+.match-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 15px 35px
+        rgba(30, 20, 70, 0.08);
+}
+
+
+.match-score {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #eeeaff;
+    color: #6956e8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.match-score strong {
+    font-size: 27px;
+}
+
+
+.match-score span {
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+
+.match-category {
+    color: #6956e8;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+
+.match-content h2 {
+    font-size: 21px;
+    margin: 7px 0 3px;
+}
+
+
+.match-provider {
+    color: #888;
+    font-size: 11px;
+}
+
+
+.match-reasons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 18px 0;
+}
+
+
+.match-reasons span {
+    padding: 7px 10px;
+    background: #f3f2ff;
+    color: #6956e8;
+    border-radius: 7px;
+    font-size: 10px;
+}
+
+
+.match-bottom {
+    border-top: 1px solid #eeeeee;
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+
+.match-bottom > div {
+    display: flex;
+    gap: 15px;
+    color: #777;
+    font-size: 10px;
+}
+
+
+.match-bottom a {
+    color: #6956e8;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+.no-matches {
+    background: white;
+    border: 1px dashed #ddd;
+    border-radius: 20px;
+    text-align: center;
+    padding: 70px 20px;
+}
+
+
+.no-matches > div {
+    font-size: 45px;
+}
+
+
+.no-matches p {
+    color: #888;
+    font-size: 12px;
+}
+
+
+@media (max-width: 700px) {
+
+    .matches-page {
+        padding: 50px 5%;
+    }
+
+
+    .matches-header h1 {
+        font-size: 37px;
+    }
+
+
+    .match-card {
+        grid-template-columns: 1fr;
+    }
+
+
+    .match-score {
+        width: 80px;
+        height: 80px;
+    }
+
+
+    .match-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+}

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {{ scholarship.name }} | Scholarship Finder
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/scholarship-details.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🎓 Scholarship<span>Finder</span>
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/scholarships">
+            Scholarships
+        </a>
+
+        <a href="#">
+            Categories
+        </a>
+
+        <a href="#">
+            About
+        </a>
+
+    </div>
+
+
+    <div class="nav-buttons">
+
+        <a href="#" class="login-btn">
+            Login
+        </a>
+
+        <a href="#" class="signup-btn">
+            Get Started
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- BREADCRUMB -->
+
+<div class="breadcrumb">
+
+    <a href="/">
+        Home
+    </a>
+
+    <span>›</span>
+
+    <a href="/scholarships">
+        Scholarships
+    </a>
+
+    <span>›</span>
+
+    <strong>
+        Details
+    </strong>
+
+</div>
+
+
+
+<!-- HERO -->
+
+<section class="details-hero">
+
+
+    <div class="details-hero-content">
+
+
+        <div class="large-scholarship-icon">
+            🎓
+        </div>
+
+
+        <div class="details-label">
+            {{ scholarship.category }}
+        </div>
+
+
+        <h1>
+            {{ scholarship.name }}
+        </h1>
+
+
+        <p class="provider-text">
+            Provided by
+            <strong>
+                {{ scholarship.provider }}
+            </strong>
+        </p>
+
+
+        <p class="hero-description">
+
+            {{ scholarship.description }}
+
+        </p>
+
+
+        <div class="hero-actions">
+
+            <a
+                href="{{ scholarship.application_link }}"
+                target="_blank"
+                class="apply-button">
+
+                Apply Now
+                <span>↗</span>
+
+            </a>
+
+            <form
+             method="POST"
+             action="{{ url_for(
+               'save_scholarship',
+               scholarship_id=scholarship.id
+               ) }}"
+                  class="save-form">
+
+              <button
+                 type="submit"
+                class="save-large-button">
+
+                ♡ Save Scholarship
+
+              </button>
+
+            </form>
+            
+
+           
+
+        </div>
+
+
+    </div>
+
+
+    <!-- SUMMARY CARD -->
+
+    <div class="summary-card">
+
+
+        <div class="summary-title">
+
+            <span>
+                Scholarship Overview
+            </span>
+
+            <span>
+                ✦
+            </span>
+
+        </div>
+
+
+        <div class="summary-item">
+
+            <span>
+                💰 Award Amount
+            </span>
+
+            <strong>
+                {{ scholarship.amount }}
+            </strong>
+
+        </div>
+
+
+        <div class="summary-item">
+
+            <span>
+                🎓 Course
+            </span>
+
+            <strong>
+                {{ scholarship.course }}
+            </strong>
+
+        </div>
+
+
+        <div class="summary-item">
+
+            <span>
+                📍 Location
+            </span>
+
+            <strong>
+                {{ scholarship.state }}
+            </strong>
+
+        </div>
+
+
+        <div class="summary-item">
+
+            <span>
+                💼 Category
+            </span>
+
+            <strong>
+                {{ scholarship.category }}
+            </strong>
+
+        </div>
+
+
+        <div class="summary-item">
+
+            <span>
+                📅 Deadline
+            </span>
+
+            <strong>
+                {{ scholarship.deadline }}
+            </strong>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- INFORMATION -->
+
+<section class="information-section">
+
+
+    <div class="information-main">
+
+
+        <div class="info-block">
+
+            <span class="info-label">
+                ABOUT
+            </span>
+
+            <h2>
+                About this scholarship
+            </h2>
+
+            <p>
+
+                {{ scholarship.description }}
+
+            </p>
+
+            <p>
+
+                This scholarship provides financial
+                assistance to eligible students pursuing
+                higher education. Students should carefully
+                review the official eligibility requirements
+                before applying.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="info-block">
+
+            <span class="info-label">
+                ELIGIBILITY
+            </span>
+
+            <h2>
+                Who can apply?
+            </h2>
+
+
+            <div class="eligibility-list">
+
+                <div>
+                    <span>✓</span>
+
+                    <p>
+                        Students pursuing
+                        {{ scholarship.course }}
+                    </p>
+
+                </div>
+
+
+                <div>
+                    <span>✓</span>
+
+                    <p>
+                        Applicants meeting the
+                        scholarship requirements
+                    </p>
+
+                </div>
+
+
+                <div>
+                    <span>✓</span>
+
+                    <p>
+                        Applicants from
+                        {{ scholarship.state }}
+                    </p>
+
+                </div>
+
+
+                <div>
+                    <span>✓</span>
+
+                    <p>
+                        Income criteria:
+                        {{ scholarship.income_limit }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="info-block">
+
+            <span class="info-label">
+                IMPORTANT
+            </span>
+
+            <h2>
+                Before you apply
+            </h2>
+
+            <div class="notice">
+
+                <span>💡</span>
+
+                <p>
+
+                    Always verify the latest eligibility
+                    criteria, required documents and
+                    application deadline on the official
+                    scholarship website.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- SIDE CARD -->
+
+    <aside class="apply-sidebar">
+
+
+        <div class="sidebar-icon">
+            🚀
+        </div>
+
+
+        <h3>
+            Ready to apply?
+        </h3>
+
+
+        <p>
+
+            Visit the official application page
+            to submit your application.
+
+        </p>
+
+
+        <a
+            href="{{ scholarship.application_link }}"
+            target="_blank"
+            class="sidebar-button">
+
+            Go to Official Website
+            ↗
+
+        </a>
+
+
+        <a
+            href="/scholarships"
+            class="back-button">
+
+            ← Browse More Scholarships
+
+        </a>
+
+
+    </aside>
+
+
+</section>
+
+
+
+
+
+
+</body>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% for category, message in messages %}
+
+        <div class="flash-message {{ category }}">
+            {{ message }}
+        </div>
+
+    {% endfor %}
+
+{% endwith %}
+
+</html>

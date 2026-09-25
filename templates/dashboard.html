@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Dashboard | Scholarship Finder
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+    <div class="logo">
+        🎓 Scholarship<span>Finder</span>
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/scholarships">
+            Scholarships
+        </a>
+        <a
+    href="/matches"
+    class="dashboard-button">
+
+    🎯 My Matches →
+
+</a>
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+    </div>
+
+
+    <div class="dashboard-user">
+
+        <span>
+            Hi, {{ user.name.split()[0] }} 👋
+        </span>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<section class="dashboard">
+
+
+    <div class="dashboard-header">
+
+        <div>
+
+            <span>
+                STUDENT DASHBOARD
+            </span>
+
+            <h1>
+                Welcome back,
+                {{ user.name.split()[0] }} 👋
+            </h1>
+
+            <p>
+                Keep exploring opportunities
+                that can help fund your education.
+            </p>
+
+        </div>
+
+
+        <a
+            href="/scholarships"
+            class="dashboard-button">
+
+            Find Scholarships →
+
+        </a>
+
+    </div>
+
+
+
+    <div class="dashboard-stats">
+
+
+        <div class="dashboard-stat">
+
+            <div>
+                🔎
+            </div>
+
+            <span>
+                Matching Scholarships
+            </span>
+
+            <strong>
+                Explore
+            </strong>
+
+        </div>
+
+
+        <div class="dashboard-stat">
+
+            <div>
+                ❤️
+            </div>
+
+            <span>
+                Saved Scholarships
+            </span>
+
+           <strong>
+             {{ saved_scholarships|length }}
+            </strong>
+
+        </div>
+
+
+        <div class="dashboard-stat">
+
+            <div>
+                ⏳
+            </div>
+
+            <span>
+                Upcoming Deadlines
+            </span>
+
+            <strong>
+                0
+            </strong>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="profile-section">
+
+
+        <div>
+
+            <span class="section-label">
+                YOUR PROFILE
+            </span>
+
+            <h2>
+                Student Information
+            </h2>
+
+        </div>
+
+
+        <div class="profile-card">
+
+
+            <div class="profile-avatar">
+                {{ user.name[0].upper() }}
+            </div>
+
+
+            <div class="profile-info">
+
+                <h3>
+                    {{ user.name }}
+                </h3>
+
+                <p>
+                    {{ user.email }}
+                </p>
+
+                <div class="profile-tags">
+
+                    <span>
+                        🎓 {{ user.course or "Course not set" }}
+                    </span>
+
+                    <span>
+                        📍 {{ user.state or "State not set" }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+    <section class="saved-section">
+
+    <div class="saved-section-heading">
+
+        <div>
+
+            <span class="section-label">
+                YOUR SAVED LIST
+            </span>
+
+            <h2>
+                Saved Scholarships ❤️
+            </h2>
+
+        </div>
+
+        <span class="saved-count">
+            {{ saved_scholarships|length }}
+            saved
+        </span>
+
+    </div>
+
+
+    {% if saved_scholarships %}
+
+        <div class="saved-grid">
+
+            {% for scholarship in saved_scholarships %}
+
+                <div class="saved-card">
+
+                    <div class="saved-card-icon">
+                        🎓
+                    </div>
+
+
+                    <span class="saved-category">
+                        {{ scholarship.category }}
+                    </span>
+
+
+                    <h3>
+                        {{ scholarship.name }}
+                    </h3>
+
+
+                    <p>
+                        {{ scholarship.provider }}
+                    </p>
+
+
+                    <div class="saved-info">
+
+                        <span>
+                            💰 {{ scholarship.amount }}
+                        </span>
+
+                        <span>
+                            📅 {{ scholarship.deadline }}
+                        </span>
+
+                    </div>
+
+
+                    <a
+                        href="{{ url_for(
+                            'scholarship_details',
+                            scholarship_id=scholarship.id
+                        ) }}">
+
+                        View Scholarship →
+
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-saved">
+
+            <div>
+                ♡
+            </div>
+
+            <h3>
+                No saved scholarships yet
+            </h3>
+
+            <p>
+                When you find a scholarship you love,
+                save it here for easy access later.
+            </p>
+
+            <a href="/scholarships">
+                Explore Scholarships →
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+    <div class="dashboard-callout">
+
+        <div>
+
+            <span>
+                ✦ PERSONALIZED DISCOVERY
+            </span>
+
+            <h2>
+                Ready to find your next opportunity?
+            </h2>
+
+            <p>
+                Explore scholarships based on your
+                education and goals.
+            </p>
+
+        </div>
+
+
+        <a href="/scholarships">
+            Explore Scholarships →
+        </a>
+
+    </div>
+
+
+</section>
+
+
+</body>
+
+</html>

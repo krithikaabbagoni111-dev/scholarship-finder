@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Scholarship Finder</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/auth.css') }}">
+
+</head>
+
+
+<body>
+
+
+<div class="auth-page">
+
+
+    <div class="auth-visual">
+
+        <div class="auth-logo">
+            🎓 Scholarship<span>Finder</span>
+        </div>
+
+
+        <div class="visual-content">
+
+            <span>
+                WELCOME BACK
+            </span>
+
+            <h1>
+                Your next opportunity
+                could be one click away.
+            </h1>
+
+            <p>
+                Sign in to continue exploring
+                scholarships and opportunities.
+            </p>
+
+
+            <div class="visual-points">
+
+                <div>
+                    ✓ Explore scholarships
+                </div>
+
+                <div>
+                    ✓ Save your favourites
+                </div>
+
+                <div>
+                    ✓ Track your journey
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="auth-form-section">
+
+
+        <div class="auth-form-container">
+
+
+            <a href="/" class="back-home">
+                ← Back to home
+            </a>
+
+
+            <div class="form-heading">
+
+                <span>
+                    WELCOME BACK
+                </span>
+
+                <h2>
+                    Login to your account
+                </h2>
+
+                <p>
+                    Continue your scholarship journey.
+                </p>
+
+            </div>
+
+
+            {% with messages = get_flashed_messages(
+                with_categories=true
+            ) %}
+
+                {% for category, message in messages %}
+
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endwith %}
+
+
+            <form method="POST">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="auth-button">
+
+                    Login →
+
+                </button>
+
+
+            </form>
+
+
+            <p class="auth-switch">
+
+                Don't have an account?
+
+                <a href="/register">
+                    Create one
+                </a>
+
+            </p>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

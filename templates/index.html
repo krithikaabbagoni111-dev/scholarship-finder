@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Scholarship Finder</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+
+        <div class="logo">
+            🎓 Scholarship<span>Finder</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Scholarships</a>
+            <a href="#">Categories</a>
+            <a href="#">About</a>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="#" class="login-btn">Login</a>
+            <a href="#" class="signup-btn">Get Started</a>
+        </div>
+
+    </nav>
+
+
+    <!-- Hero Section -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="small-badge">
+                ✨ Your Future Starts Here
+            </div>
+
+            <h1>
+                Find Scholarships.
+                <span>Fund Your Future.</span>
+            </h1>
+
+            <p>
+                Discover scholarships that match your education,
+                interests and eligibility — all in one place.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#" class="primary-btn">
+                    🔎 Find Scholarships
+                </a>
+
+                <a href="#" class="secondary-btn">
+                    Explore Opportunities →
+                </a>
+
+            </div>
+
+            <div class="stats">
+
+                <div>
+                    <h3>10K+</h3>
+                    <p>Scholarships</p>
+                </div>
+
+                <div>
+                    <h3>50K+</h3>
+                    <p>Students</p>
+                </div>
+
+                <div>
+                    <h3>95%</h3>
+                    <p>Better Discovery</p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Hero Visual -->
+
+        <div class="hero-card">
+
+            <div class="floating-card card-one">
+                🎓
+                <div>
+                    <strong>Scholarship Match</strong>
+                    <small>92% Match</small>
+                </div>
+            </div>
+
+            <div class="main-dashboard-card">
+
+                <div class="dashboard-top">
+                    <span>Recommended for you</span>
+                    <span>•••</span>
+                </div>
+
+                <div class="profile-circle">
+                    🎓
+                </div>
+
+                <h3>Future Scholar</h3>
+
+                <p>Find opportunities made for you.</p>
+
+                <div class="progress">
+                    <div class="progress-fill"></div>
+                </div>
+
+                <div class="match">
+                    <span>Your Match</span>
+                    <strong>92%</strong>
+                </div>
+
+            </div>
+
+            <div class="floating-card card-two">
+                💰
+                <div>
+                    <strong>₹75,000</strong>
+                    <small>Available Aid</small>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Categories -->
+
+    <section class="categories">
+
+        <div class="section-heading">
+
+            <div>
+                <span>EXPLORE</span>
+                <h2>Find Opportunities That Fit You</h2>
+            </div>
+
+            <p>
+                Explore scholarships based on your education,
+                interests and goals.
+            </p>
+
+        </div>
+
+
+        <div class="category-grid">
+
+            <div class="category-card">
+                <div class="category-icon">🎓</div>
+                <h3>Diploma</h3>
+                <p>Scholarships for diploma students</p>
+                <a href="#">Explore →</a>
+            </div>
+
+            <div class="category-card">
+                <div class="category-icon">💻</div>
+                <h3>B.Tech</h3>
+                <p>Opportunities for engineering students</p>
+                <a href="#">Explore →</a>
+            </div>
+
+            <div class="category-card">
+                <div class="category-icon">🏫</div>
+                <h3>Degree</h3>
+                <p>Financial support for degree students</p>
+                <a href="#">Explore →</a>
+            </div>
+
+            <div class="category-card">
+                <div class="category-icon">👩‍🎓</div>
+                <h3>Women</h3>
+                <p>Scholarships supporting women in education</p>
+                <a href="#">Explore →</a>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- How It Works -->
+
+    <section class="how-it-works">
+
+        <div class="section-title">
+
+            <span>HOW IT WORKS</span>
+
+            <h2>
+                Your Scholarship Journey,
+                <span>Simplified.</span>
+            </h2>
+
+        </div>
+
+
+        <div class="steps">
+
+            <div class="step">
+
+                <div class="step-number">01</div>
+
+                <h3>Create Your Profile</h3>
+
+                <p>
+                    Tell us about your education,
+                    course and eligibility.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">02</div>
+
+                <h3>Discover Scholarships</h3>
+
+                <p>
+                    Find opportunities that match
+                    your profile.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">03</div>
+
+                <h3>Check Eligibility</h3>
+
+                <p>
+                    Understand the requirements
+                    before applying.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">04</div>
+
+                <h3>Apply & Track</h3>
+
+                <p>
+                    Save scholarships and keep
+                    track of deadlines.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Call To Action -->
+
+    <section class="cta">
+
+        <div>
+
+            <span>READY TO START?</span>
+
+            <h2>
+                Your dream education
+                shouldn't be limited by money.
+            </h2>
+
+            <p>
+                Start discovering scholarships today.
+            </p>
+
+            <a href="#" class="primary-btn">
+                Start Finding Scholarships →
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <div class="footer-logo">
+            🎓 Scholarship<span>Finder</span>
+        </div>
+
+        <p>
+            Helping students discover opportunities
+            and build brighter futures.
+        </p>
+
+        <div class="footer-bottom">
+            © 2026 Scholarship Finder. All rights reserved.
+        </div>
+
+    </footer>
+
+
+</body>
+</html>

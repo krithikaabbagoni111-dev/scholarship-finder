@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Find Scholarships | Scholarship Finder</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/scholarships.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🎓 Scholarship<span>Finder</span>
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+
+        <a href="/scholarships" class="active-link">
+            Scholarships
+        </a>
+        <a href="/matches">
+          My Matches
+        </a>
+        <a href="#">Categories</a>
+
+        <a href="#">About</a>
+
+    </div>
+
+    <div class="nav-buttons">
+
+        <a href="#" class="login-btn">
+            Login
+        </a>
+
+        <a href="#" class="signup-btn">
+            Get Started
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- PAGE HEADER -->
+
+<section class="scholarship-header">
+
+    <div class="header-content">
+
+        <span class="header-label">
+            ✦ DISCOVER OPPORTUNITIES
+        </span>
+
+        <h1>
+            Find the right
+            <span>scholarship.</span>
+        </h1>
+
+        <p>
+            Search through opportunities and find financial
+            support that matches your education and goals.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- SEARCH AREA
+
+<section class="search-section">
+
+
+    <div class="search-box">
+
+        <span>🔎</span>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search scholarships, providers..."
+            onkeyup="filterScholarships()"
+        >
+
+    </div>
+ -->
+<!--
+    <div class="filters">
+
+
+        <div class="filter-group">
+
+            <label>Course</label>
+
+            <select id="courseFilter"
+                    onchange="filterScholarships()">
+
+                <option value="all">
+                    All Courses
+                </option>
+
+                <option value="diploma">
+                    Diploma
+                </option>
+
+                <option value="b.tech">
+                    B.Tech
+                </option>
+
+                <option value="degree">
+                    Degree
+                </option>
+
+                <option value="engineering">
+                    Engineering
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="filter-group">
+
+            <label>Category</label>
+
+            <select id="categoryFilter"
+                    onchange="filterScholarships()">
+
+                <option value="all">
+                    All Categories
+                </option>
+
+                <option value="merit">
+                    Merit
+                </option>
+
+                <option value="women">
+                    Women
+                </option>
+
+                <option value="government">
+                    Government
+                </option>
+
+                <option value="need based">
+                    Need Based
+                </option>
+
+                <option value="special category">
+                    Special Category
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="filter-group">
+
+            <label>State</label>
+
+            <select id="stateFilter"
+                    onchange="filterScholarships()">
+
+                <option value="all">
+                    All States
+                </option>
+
+                <option value="telangana">
+                    Telangana
+                </option>
+
+                <option value="all india">
+                    All India
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            class="reset-button"
+            onclick="resetFilters()">
+
+            Reset
+
+        </button>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- 
+
+<section class="results-section">
+
+
+    <div class="results-top">
+
+        <div>
+
+            <span class="results-label">
+                SCHOLARSHIP DIRECTORY
+            </span>
+
+            <h2>
+                <span id="resultCount">
+                    {{ scholarships|length }}
+                </span>
+
+                opportunities found
+            </h2>
+
+        </div>
+
+
+        <select class="sort-select">
+
+            <option>
+                Recommended
+            </option>
+
+            <option>
+                Highest Amount
+            </option>
+
+            <option>
+                Newest
+            </option>
+
+        </select>
+
+    </div>
+-->
+
+    <section class="filter-section">
+
+    <div class="filter-heading">
+
+        <div>
+
+            <span>
+                FIND YOUR OPPORTUNITY
+            </span>
+
+            <h2>
+                Search scholarships
+            </h2>
+
+        </div>
+
+        <p>
+            {{ scholarships|length }}
+            scholarships found
+        </p>
+
+    </div>
+
+
+    <form
+        method="GET"
+        action="{{ url_for('scholarships') }}"
+        class="filter-form">
+
+
+        <div class="search-box">
+
+            <span>🔍</span>
+
+            <input
+                type="text"
+                name="search"
+                value="{{ search }}"
+                placeholder="Search scholarships or providers..."
+            >
+
+        </div>
+
+
+        <div class="filter-row">
+
+
+            <select name="course">
+
+                <option value="">
+                    All Courses
+                </option>
+
+                <option
+                    value="Diploma"
+                    {% if selected_course == "Diploma" %}
+                    selected
+                    {% endif %}
+                >
+                    Diploma
+                </option>
+
+                <option
+                    value="B.Tech"
+                    {% if selected_course == "B.Tech" %}
+                    selected
+                    {% endif %}
+                >
+                    B.Tech
+                </option>
+
+                <option
+                    value="Degree"
+                    {% if selected_course == "Degree" %}
+                    selected
+                    {% endif %}
+                >
+                    Degree
+                </option>
+
+                <option
+                    value="Engineering"
+                    {% if selected_course == "Engineering" %}
+                    selected
+                    {% endif %}
+                >
+                    Engineering
+                </option>
+
+            </select>
+
+
+            <select name="state">
+
+                <option value="">
+                    All States
+                </option>
+
+                <option
+                    value="Telangana"
+                    {% if selected_state == "Telangana" %}
+                    selected
+                    {% endif %}
+                >
+                    Telangana
+                </option>
+
+                <option
+                    value="Andhra Pradesh"
+                    {% if selected_state == "Andhra Pradesh" %}
+                    selected
+                    {% endif %}
+                >
+                    Andhra Pradesh
+                </option>
+
+                <option
+                    value="Karnataka"
+                    {% if selected_state == "Karnataka" %}
+                    selected
+                    {% endif %}
+                >
+                    Karnataka
+                </option>
+
+                <option
+                    value="Tamil Nadu"
+                    {% if selected_state == "Tamil Nadu" %}
+                    selected
+                    {% endif %}
+                >
+                    Tamil Nadu
+                </option>
+
+            </select>
+
+
+            <select name="category">
+
+                <option value="">
+                    All Categories
+                </option>
+
+                <option
+                    value="Merit"
+                    {% if selected_category == "Merit" %}
+                    selected
+                    {% endif %}
+                >
+                    Merit Based
+                </option>
+
+                <option
+                    value="Need Based"
+                    {% if selected_category == "Need Based" %}
+                    selected
+                    {% endif %}
+                >
+                    Need Based
+                </option>
+
+                <option
+                    value="Government"
+                    {% if selected_category == "Government" %}
+                    selected
+                    {% endif %}
+                >
+                    Government
+                </option>
+
+                <option
+                    value="Women"
+                    {% if selected_category == "Women" %}
+                    selected
+                    {% endif %}
+                >
+                    Women
+                </option>
+
+            </select>
+
+
+            <button
+                type="submit"
+                class="filter-button">
+
+                Apply Filters
+
+            </button>
+
+
+            <a
+                href="{{ url_for('scholarships') }}"
+                class="clear-button">
+
+                Clear
+
+            </a>
+
+
+        </div>
+
+    </form>
+
+</section>
+    <!-- SCHOLARSHIP GRID -->
+
+    <div class="scholarship-grid"
+         id="scholarshipGrid">
+
+
+        {% for scholarship in scholarships %}
+
+
+        <article
+            class="scholarship-card"
+
+            data-name="{{ scholarship.name|lower }}"
+
+            data-provider="{{ scholarship.provider|lower }}"
+
+            data-course="{{ scholarship.course|lower }}"
+
+            data-category="{{ scholarship.category|lower }}"
+
+            data-state="{{ scholarship.state|lower }}"
+        >
+
+
+            <div class="card-top">
+
+                <div class="scholarship-icon">
+                    🎓
+                </div>
+
+                <button class="save-button"
+                        onclick="toggleSave(this)">
+
+                    ♡
+
+                </button>
+
+            </div>
+
+
+            <div class="scholarship-content">
+
+
+                <div class="provider">
+                    {{ scholarship.provider }}
+                </div>
+
+
+                <h3>
+                    {{ scholarship.name }}
+                </h3>
+
+
+                <p class="description">
+                    {{ scholarship.description }}
+                </p>
+
+
+                <div class="amount-box">
+
+                    <span>
+                        Scholarship Amount
+                    </span>
+
+                    <strong>
+                        {{ scholarship.amount }}
+                    </strong>
+
+                </div>
+
+
+                <div class="details">
+
+
+                    <div>
+                        <span>🎓 Course</span>
+
+                        <strong>
+                            {{ scholarship.course }}
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>📍 Location</span>
+
+                        <strong>
+                            {{ scholarship.state }}
+                        </strong>
+                    </div>
+
+
+                </div>
+
+
+                <div class="deadline">
+
+                    <span>
+                        ⏳ Deadline
+                    </span>
+
+                    <strong>
+                        {{ scholarship.deadline }}
+                    </strong>
+
+                </div>
+
+
+            <a
+                href="{{ url_for('scholarship_details', scholarship_id=scholarship.id) }}"
+                class="view-button">
+
+                View Scholarship
+               <span>→</span>
+ 
+             </a>
+
+
+            </div>
+
+
+        </article>
+
+
+        {% endfor %}
+
+
+    </div>
+
+     
+    <!-- NO RESULTS -->
+
+    <div id="noResults"
+         class="no-results">
+
+        <div>
+            🔍
+        </div>
+
+        <h3>
+            No scholarships found
+        </h3>
+
+        <p>
+            Try changing your search or filters.
+        </p>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+function filterScholarships() {
+
+    const search =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    const course =
+        document
+        .getElementById("courseFilter")
+        .value
+        .toLowerCase();
+
+    const category =
+        document
+        .getElementById("categoryFilter")
+        .value
+        .toLowerCase();
+
+    const state =
+        document
+        .getElementById("stateFilter")
+        .value
+        .toLowerCase();
+
+
+    const cards =
+        document.querySelectorAll(
+            ".scholarship-card"
+        );
+
+
+    let visibleCount = 0;
+
+
+    cards.forEach(card => {
+
+
+        const name =
+            card.dataset.name;
+
+        const provider =
+            card.dataset.provider;
+
+        const cardCourse =
+            card.dataset.course;
+
+        const cardCategory =
+            card.dataset.category;
+
+        const cardState =
+            card.dataset.state;
+
+
+        const matchesSearch =
+            name.includes(search) ||
+            provider.includes(search);
+
+
+        const matchesCourse =
+            course === "all" ||
+            cardCourse.includes(course);
+
+
+        const matchesCategory =
+            category === "all" ||
+            cardCategory.includes(category);
+
+
+        const matchesState =
+            state === "all" ||
+            cardState.includes(state);
+
+
+        if (
+            matchesSearch &&
+            matchesCourse &&
+            matchesCategory &&
+            matchesState
+        ) {
+
+            card.style.display = "block";
+
+            visibleCount++;
+
+        }
+
+        else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+
+    document
+        .getElementById("resultCount")
+        .textContent = visibleCount;
+
+
+    const noResults =
+        document.getElementById("noResults");
+
+
+    if (visibleCount === 0) {
+
+        noResults.style.display = "block";
+
+    }
+
+    else {
+
+        noResults.style.display = "none";
+
+    }
+
+}
+
+
+
+function resetFilters() {
+
+    document
+        .getElementById("searchInput")
+        .value = "";
+
+
+    document
+        .getElementById("courseFilter")
+        .value = "all";
+
+
+    document
+        .getElementById("categoryFilter")
+        .value = "all";
+
+
+    document
+        .getElementById("stateFilter")
+        .value = "all";
+
+
+    filterScholarships();
+
+}
+
+
+
+function toggleSave(button) {
+
+    if (button.textContent.trim() === "♡") {
+
+        button.textContent = "♥";
+
+        button.classList.add("saved");
+
+    }
+
+    else {
+
+        button.textContent = "♡";
+
+        button.classList.remove("saved");
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>
