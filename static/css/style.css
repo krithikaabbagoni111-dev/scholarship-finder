@@ -540,3 +540,122 @@ footer > p {
         font-size: 30px;
     }
 }
+
+/* =========================================
+   MOBILE NAVIGATION
+========================================= */
+
+.mobile-menu-btn {
+    display: none;
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 8px;
+    color: inherit;
+    z-index: 10001;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+
+@media (max-width: 768px) {
+
+    .navbar {
+        position: relative;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 18px;
+        z-index: 10000;
+    }
+
+    .navbar .nav-links {
+        display: none !important;
+    }
+
+    .navbar .dashboard-user {
+        display: none !important;
+    }
+
+    .mobile-menu-btn {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    .mobile-menu {
+        position: absolute;
+        top: 70px;
+        left: 15px;
+        right: 15px;
+
+        display: none;
+
+        flex-direction: column;
+        gap: 5px;
+
+        padding: 12px;
+
+        background: white;
+
+        border-radius: 16px;
+
+        box-shadow:
+            0 12px 35px rgba(0, 0, 0, 0.15);
+
+        border: 1px solid rgba(0, 0, 0, 0.08);
+
+        z-index: 99999;
+    }
+
+    .mobile-menu.active {
+        display: flex !important;
+    }
+
+    .mobile-menu a {
+        display: flex;
+        align-items: center;
+
+        width: 100%;
+        box-sizing: border-box;
+
+        padding: 14px 15px;
+
+        color: #222;
+        text-decoration: none;
+
+        font-size: 16px;
+        font-weight: 500;
+
+        border-radius: 10px;
+    }
+
+    .mobile-menu a:hover {
+        background: #f5f5f5;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .navbar {
+        padding: 13px 15px;
+    }
+
+    .mobile-menu {
+        top: 62px;
+        left: 10px;
+        right: 10px;
+    }
+
+}
+
+

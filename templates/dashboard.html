@@ -24,50 +24,22 @@
 <body>
 
 
-<nav class="navbar">
+<!-- =========================================
+     COMMON NAVIGATION
+========================================= -->
 
-    <div class="logo">
-        🎓 Scholarship<span>Finder</span>
-    </div>
-
-
-    <div class="nav-links">
-
-        <a href="/">
-            Home
-        </a>
-
-        <a href="/scholarships">
-            Scholarships
-        </a>
-       <a href="{{ url_for('matches') }}">
-             Matches
-         </a>
-        <a href="/dashboard">
-            Dashboard
-        </a>
-
-    </div>
+{% include 'navbar.html' %}
 
 
-    <div class="dashboard-user">
 
-        <span>
-            Hi, {{ user.name.split()[0] }} 👋
-        </span>
-
-        <a href="/logout">
-            Logout
-        </a>
-
-    </div>
-
-</nav>
-
-
+<!-- =========================================
+     DASHBOARD
+========================================= -->
 
 <section class="dashboard">
 
+
+    <!-- Dashboard Header -->
 
     <div class="dashboard-header">
 
@@ -90,12 +62,21 @@
         </div>
 
 
-          <a href="{{ url_for('scholarships') }}" class="...">
+        <a
+            href="{{ url_for('scholarships') }}"
+            class="primary-btn">
+
             Find Scholarships
-                    </a>
+
+        </a>
+
     </div>
 
 
+
+    <!-- =========================================
+         DASHBOARD STATISTICS
+    ========================================= -->
 
     <div class="dashboard-stats">
 
@@ -117,6 +98,7 @@
         </div>
 
 
+
         <div class="dashboard-stat">
 
             <div>
@@ -127,11 +109,12 @@
                 Saved Scholarships
             </span>
 
-           <strong>
-             {{ saved_scholarships|length }}
+            <strong>
+                {{ saved_scholarships|length }}
             </strong>
 
         </div>
+
 
 
         <div class="dashboard-stat">
@@ -155,6 +138,10 @@
 
 
 
+    <!-- =========================================
+         PROFILE SECTION
+    ========================================= -->
+
     <div class="profile-section">
 
 
@@ -175,7 +162,9 @@
 
 
             <div class="profile-avatar">
+
                 {{ user.name[0].upper() }}
+
             </div>
 
 
@@ -188,6 +177,7 @@
                 <p>
                     {{ user.email }}
                 </p>
+
 
                 <div class="profile-tags">
 
@@ -208,116 +198,168 @@
 
 
     </div>
+
+
+
+    <!-- =========================================
+         SAVED SCHOLARSHIPS
+    ========================================= -->
+
     <section class="saved-section">
 
-    <div class="saved-section-heading">
 
-        <div>
+        <div class="saved-section-heading">
 
-            <span class="section-label">
-                YOUR SAVED LIST
-            </span>
-
-            <h2>
-                Saved Scholarships ❤️
-            </h2>
-
-        </div>
-
-        <span class="saved-count">
-            {{ saved_scholarships|length }}
-            saved
-        </span>
-
-    </div>
-
-
-    {% if saved_scholarships %}
-
-        <div class="saved-grid">
-
-            {% for scholarship in saved_scholarships %}
-
-                <div class="saved-card">
-
-                    <div class="saved-card-icon">
-                        🎓
-                    </div>
-
-
-                    <span class="saved-category">
-                        {{ scholarship.category }}
-                    </span>
-
-
-                    <h3>
-                        {{ scholarship.name }}
-                    </h3>
-
-
-                    <p>
-                        {{ scholarship.provider }}
-                    </p>
-
-
-                    <div class="saved-info">
-
-                        <span>
-                            💰 {{ scholarship.amount }}
-                        </span>
-
-                        <span>
-                            📅 {{ scholarship.deadline }}
-                        </span>
-
-                    </div>
-
-
-                    <a
-                        href="{{ url_for(
-                            'scholarship_details',
-                            scholarship_id=scholarship.id
-                        ) }}">
-
-                        View Scholarship →
-
-                    </a>
-
-                </div>
-
-            {% endfor %}
-
-        </div>
-
-    {% else %}
-
-        <div class="empty-saved">
 
             <div>
-                ♡
+
+                <span class="section-label">
+                    YOUR SAVED LIST
+                </span>
+
+                <h2>
+                    Saved Scholarships ❤️
+                </h2>
+
             </div>
 
-            <h3>
-                No saved scholarships yet
-            </h3>
 
-            <p>
-                When you find a scholarship you love,
-                save it here for easy access later.
-            </p>
+            <span class="saved-count">
 
-            <a href="/scholarships">
-                Explore Scholarships →
-            </a>
+                {{ saved_scholarships|length }}
+
+                saved
+
+            </span>
+
 
         </div>
 
-    {% endif %}
 
-</section>
 
+        {% if saved_scholarships %}
+
+
+            <div class="saved-grid">
+
+
+                {% for scholarship in saved_scholarships %}
+
+
+                    <div class="saved-card">
+
+
+                        <div class="saved-card-icon">
+                            🎓
+                        </div>
+
+
+                        <span class="saved-category">
+
+                            {{ scholarship.category }}
+
+                        </span>
+
+
+                        <h3>
+
+                            {{ scholarship.name }}
+
+                        </h3>
+
+
+                        <p>
+
+                            {{ scholarship.provider }}
+
+                        </p>
+
+
+                        <div class="saved-info">
+
+
+                            <span>
+
+                                💰 {{ scholarship.amount }}
+
+                            </span>
+
+
+                            <span>
+
+                                📅 {{ scholarship.deadline }}
+
+                            </span>
+
+
+                        </div>
+
+
+                        <a
+                            href="{{ url_for(
+                                'scholarship_details',
+                                scholarship_id=scholarship.id
+                            ) }}">
+
+                            View Scholarship →
+
+                        </a>
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <div class="empty-saved">
+
+
+                <div>
+                    ♡
+                </div>
+
+
+                <h3>
+                    No saved scholarships yet
+                </h3>
+
+
+                <p>
+                    When you find a scholarship you love,
+                    save it here for easy access later.
+                </p>
+
+
+                <a href="/scholarships">
+
+                    Explore Scholarships →
+
+                </a>
+
+
+            </div>
+
+
+        {% endif %}
+
+
+    </section>
+
+
+
+    <!-- =========================================
+         CALL TO ACTION
+    ========================================= -->
 
     <div class="dashboard-callout">
+
 
         <div>
 
@@ -338,8 +380,11 @@
 
 
         <a href="/scholarships">
+
             Explore Scholarships →
+
         </a>
+
 
     </div>
 
